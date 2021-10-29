@@ -12,3 +12,9 @@ SELECT *
 SELECT *
   FROM Tag
  ;
+
+
+-- Get the cross-product of all the tables.
+SELECT *
+  FROM AUser, Coordinate
+  ;
