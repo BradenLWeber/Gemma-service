@@ -1,5 +1,5 @@
 -- Database Schema from Domain Model
--- Drop previous versions of the tables if they they exist, in reverse order of foreign keys.
+-- Drop previous versions of the tables if they exist, in reverse order of foreign keys.
 DROP TABLE IF EXISTS "Media";
 DROP TABLE IF EXISTS "Tag";
 DROP TABLE IF EXISTS "Coordinates";
@@ -7,23 +7,23 @@ DROP TABLE IF EXISTS "AUser";
 -- Create the schema.
 CREATE TABLE "AUser" (
 	UserID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-	emailAddress varchar(50) NOT NULL,
-    passphrase varchar(30) NOT NULL,
-    viewPublic char(3) NOT NULL --PUB or PRI
+	emailAddress varchar(100) NOT NULL,
+        passphrase varchar(100) NOT NULL,
+        viewPublic char(3) NOT NULL --PUB or PRI
     );
 CREATE TABLE "Coordinates" (
     UserID int NOT NULL,
     pinID char(5) PRIMARY KEY,
-    pinName varchar(20),
-    longitude char(4) NOT NULL, -- -180 to +180
-    latitude char(3) NOT NULL,   -- -90  to +90
+    pinName varchar(100),
+    longitude decimal(16,14) NOT NULL, -- -180 to +180
+    latitude decimal(16,14)  NOT NULL,   -- -90  to +90
     -- isPublic
     CONSTRAINT fk_coordinates
         FOREIGN KEY(UserID) REFERENCES "AUser"(UserID)
     );
 CREATE TABLE "Tag" (
     tagID char(5) PRIMARY KEY,
-    tagName varchar(30),
+    tagName varchar(50),
     pinID char(5) NOT NULL,
     CONSTRAINT fk_tag
       FOREIGN KEY(pinID) REFERENCES "Coordinates"(pinID)
@@ -33,4 +33,3 @@ CREATE TABLE "Media" (
     CONSTRAINT fk_media
       FOREIGN KEY(pinID) REFERENCES "Coordinates"(pinID)
     );
-
