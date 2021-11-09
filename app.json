@@ -1,0 +1,6 @@
+{
+    "name": "Start on Heroku: gemmaService.js",
+    "description": "Data-based webservice for application: Gemma",
+    "repository": "https://https://github.com/Gemma-app",
+    "image": "heroku/nodejs"
+  }

@@ -1,0 +1,19 @@
+{
+    "name": "gemma-app",
+    "version": "1.0.0",
+    "description": "CS 262 Webservice",
+    "main": "gemmaService.js",
+    "author": "yj225",
+    "license": "ISC",
+    "engines": {
+      "node": "12.x"
+    },
+    "scripts": {
+      "start": "node gemmaService.js",
+      "start-direct": "node gemmaService.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "pg-promise": "^10.7.1"
+    }
+  }
