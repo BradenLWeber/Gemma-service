@@ -1,5 +1,6 @@
 /**
  * Code from kvlinden monopolyService
+ * Updated code for Gemma-App Database (yj225)
  */
 
 // Set up the database connection.
@@ -21,17 +22,12 @@ const router = express.Router();
 router.use(express.json());
 
 router.get("/", readHelloMessage);
-router.get("/players", readPlayers);
-router.get("/players/:id", readPlayer);
-router.put("/players/:id", updatePlayer);
-router.post('/players', createPlayer);
-router.delete('/players/:id', deletePlayer);
-
-app.use(router);
-app.use(errorHandler);
-app.listen(port, () => console.log(`Listening on port ${port}`));
-
-// Implement the CRUD operations.
+router.get("/AUsers", readAUsers);
+router.get("/AUsers/:UserID", readAUser);
+router.put("/AUsers/:UserID", updateAUser);
+router.post('/AUsers', createAUser);
+router.delete('/AUsers/:UserID', deleteAUser);
+UserID
 
 function errorHandler(err, req, res) {
     if (app.get('env') === "development") {
@@ -49,11 +45,11 @@ function returnDataOr404(res, data) {
 }
 
 function readHelloMessage(req, res) {
-    res.send('WElcom to Gemma! ');
+    res.send('Welcome to Gemma! ');
 }
 
-function readPlayers(req, res, next) {
-    db.many("SELECT * FROM Player")
+function readAUsers(req, res, next) {
+    db.many("SELECT * FROM AUser")
         .then(data => {
             res.send(data);
         })
@@ -62,8 +58,8 @@ function readPlayers(req, res, next) {
         })
 }
 
-function readPlayer(req, res, next) {
-    db.oneOrNone('SELECT * FROM Player WHERE id=${id}', req.params)
+function readAUser(req, res, next) {
+    db.oneOrNone('SELECT * FROM AUser WHERE UserID=${UserID}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -72,8 +68,8 @@ function readPlayer(req, res, next) {
         });
 }
 
-function updatePlayer(req, res, next) {
-    db.oneOrNone('UPDATE Player SET email=${body.email}, name=${body.name} WHERE id=${params.id} RETURNING id', req)
+function updateAUser(req, res, next) {
+    db.oneOrNone('UPDATE AUser SET emailAddress=${body.email}, passphrase=${body.passphrase}WHERE UserID=${params.UserID} RETURNING UserID', req)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -82,8 +78,8 @@ function updatePlayer(req, res, next) {
         });
 }
 
-function createPlayer(req, res, next) {
-    db.one('INSERT INTO Player(email, name) VALUES (${email}, ${name}) RETURNING id', req.body)
+function createAUser(req, res, next) {
+    db.one('INSERT INTO AUser(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase}) RETURNING UserID', req.body)
         .then(data => {
             res.send(data);
         })
@@ -92,8 +88,8 @@ function createPlayer(req, res, next) {
         });
 }
 
-function deletePlayer(req, res, next) {
-    db.oneOrNone('DELETE FROM Player WHERE id=${id} RETURNING id', req.params)
+function deleteAUser(req, res, next) {
+    db.oneOrNone('DELETE FROM AUser WHERE UserID=${UserID} RETURNING UserID', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
