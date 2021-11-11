@@ -17,6 +17,7 @@ CREATE TABLE "Coordinates" (
     pinName varchar(100),
     longitude decimal(16,14) NOT NULL, -- -180 to +180
     latitude decimal(16,14)  NOT NULL,   -- -90  to +90
+    notes varchar(500),
     -- isPublic
     CONSTRAINT fk_coordinates
         FOREIGN KEY(UserID) REFERENCES "AUser"(UserID)
@@ -43,4 +44,10 @@ GRANT SELECT ON "Media" TO PUBLIC;
 
 -- Add sample records
 INSERT INTO "AUser"(emailAddress, passphrase, viewPublic) VALUES ('yj225@students.calvin.edu', 'GemmaDemo0', 'PUB');
+INSERT INTO "AUser"(emailAddress, passphrase, viewPublic) VALUES ('ehl6@students.calvin.edu', 'GemmaDemo0', 'PRI');
+INSERT INTO "AUser"(emailAddress, passphrase, viewPublic) VALUES ('rmd34@students.calvin.edu', 'GemmaDemo0', 'PUB');
+INSERT INTO "AUser"(emailAddress, passphrase, viewPublic) VALUES ('blw22@students.calvin.edu', 'GemmaDemo0', 'PUB');
+INSERT INTO "AUser"(emailAddress, passphrase, viewPublic) VALUES ('ots3@students.calvin.edu', 'GemmaDemo0', 'PUB');
+
+INSERT INTO "Coordinates" VALUES (12, 1, 'The middle of the map', -85.5795755, 42.934196, 'this pin is in the middle of the map!');
 

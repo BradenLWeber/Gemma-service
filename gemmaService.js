@@ -24,8 +24,11 @@ router.use(express.json());
 router.get("/", readHelloMessage);
 router.get("/AUsers", readAUsers);
 router.get("/AUsers/:UserID", readAUser);
+router.get("/Coordinates", readCoordinates);
+router.get("/Coordinates/:pinID", readCoordinate);
 router.put("/AUsers/:UserID", updateAUser);
-router.post('/AUsers', createAUser);
+router.post("/AUsers", createAUser);
+router.post("/Coordinates", createCoordinate);
 router.delete('/AUsers/:UserID', deleteAUser);
 //UserID
 
@@ -73,6 +76,26 @@ function readAUser(req, res, next) {
         });
 }
 
+function readCoordinates(req, res, next) {
+    db.many("SELECT * FROM \"Coordinates\"")
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            next(err);
+        })
+}
+
+function readCoordinate(req, res, next) {
+    db.oneOrNone('SELECT * FROM \"Coordinate\" WHERE pinID=${pinID}', req.params)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
 function updateAUser(req, res, next) {
     db.oneOrNone('UPDATE \"AUser\" SET emailAddress=${body.email}, passphrase=${body.passphrase}WHERE UserID=${params.UserID} RETURNING UserID', req)
         .then(data => {
@@ -85,6 +108,16 @@ function updateAUser(req, res, next) {
 
 function createAUser(req, res, next) {
     db.one('INSERT INTO \"AUser\"(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase}) RETURNING UserID', req.body)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
+function createCoordinate(req, res, next) {
+    db.one('INSERT INTO \"Coordinate\"(UserID, pinID, pinName, longitude, latitude) VALUES (${UserID}, ${pinID}, ${pinName}, ${longitude}, ${latitude})', req.body)
         .then(data => {
             res.send(data);
         })
