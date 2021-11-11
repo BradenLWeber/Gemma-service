@@ -35,11 +35,12 @@ CREATE TABLE "Media" (
     );
 
 --Allow users to select data from the tables.
-GRANT SELECT ON AUser TO PUBLIC;
-GRANT SELECT ON Coordinates TO PUBLIC;
-GRANT SELECT ON Tag TO PUBLIC;
-GRANT SELECT ON Media TO PUBLIC;
+--EL added quotes around table names; ElephantSQL couldn't find them otherwise
+GRANT SELECT ON "AUser" TO PUBLIC;
+GRANT SELECT ON "Coordinates" TO PUBLIC;
+GRANT SELECT ON "Tag" TO PUBLIC;
+GRANT SELECT ON "Media" TO PUBLIC;
 
 -- Add sample records
-INSERT INTO AUser(emailAddress, passphrase, viewPublic) VALUES ('yj225@students.calvin.edu', 'GemmaDemo0', 'PUB');
+INSERT INTO "AUser"(emailAddress, passphrase, viewPublic) VALUES ('yj225@students.calvin.edu', 'GemmaDemo0', 'PUB');
 
