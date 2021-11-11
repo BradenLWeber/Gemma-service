@@ -17,7 +17,7 @@ const db = pgp({
 
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5432;
 const router = express.Router();
 router.use(express.json());
 
@@ -27,7 +27,7 @@ router.get("/AUsers/:UserID", readAUser);
 router.put("/AUsers/:UserID", updateAUser);
 router.post('/AUsers', createAUser);
 router.delete('/AUsers/:UserID', deleteAUser);
-UserID
+//UserID
 
 function errorHandler(err, req, res) {
     if (app.get('env') === "development") {
@@ -45,7 +45,7 @@ function returnDataOr404(res, data) {
 }
 
 function readHelloMessage(req, res) {
-    res.send('Welcome to Gemma! ');
+    res.send('Welcome to Gemma!');
 }
 
 function readAUsers(req, res, next) {
