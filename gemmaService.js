@@ -29,6 +29,11 @@ router.post('/AUsers', createAUser);
 router.delete('/AUsers/:UserID', deleteAUser);
 //UserID
 
+app.use(router);
+app.use(errorHandler);
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
+
 function errorHandler(err, req, res) {
     if (app.get('env') === "development") {
         console.log(err);
