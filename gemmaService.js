@@ -64,7 +64,7 @@ function readAUsers(req, res, next) {
 }
 
 function readAUser(req, res, next) {
-    db.oneOrNone('SELECT * FROM AUser WHERE UserID=${UserID}', req.params)
+    db.oneOrNone('SELECT * FROM \"AUser\" WHERE UserID=${UserID}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -74,7 +74,7 @@ function readAUser(req, res, next) {
 }
 
 function updateAUser(req, res, next) {
-    db.oneOrNone('UPDATE AUser SET emailAddress=${body.email}, passphrase=${body.passphrase}WHERE UserID=${params.UserID} RETURNING UserID', req)
+    db.oneOrNone('UPDATE \"AUser\" SET emailAddress=${body.email}, passphrase=${body.passphrase}WHERE UserID=${params.UserID} RETURNING UserID', req)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -84,7 +84,7 @@ function updateAUser(req, res, next) {
 }
 
 function createAUser(req, res, next) {
-    db.one('INSERT INTO AUser(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase}) RETURNING UserID', req.body)
+    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase}) RETURNING UserID', req.body)
         .then(data => {
             res.send(data);
         })
@@ -94,7 +94,7 @@ function createAUser(req, res, next) {
 }
 
 function deleteAUser(req, res, next) {
-    db.oneOrNone('DELETE FROM AUser WHERE UserID=${UserID} RETURNING UserID', req.params)
+    db.oneOrNone('DELETE FROM \"AUser\" WHERE UserID=${UserID} RETURNING UserID', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
