@@ -30,7 +30,6 @@ router.put("/AUsers/:UserID", updateAUser);
 router.post("/AUsers", createAUser);
 router.post("/Coordinates", createCoordinate);
 router.delete('/AUsers/:UserID', deleteAUser);
-//UserID
 
 app.use(router);
 app.use(errorHandler);
@@ -117,7 +116,7 @@ function createAUser(req, res, next) {
 }
 
 function createCoordinate(req, res, next) {
-    db.one('INSERT INTO \"Coordinate\"(UserID, pinID, pinName, longitude, latitude) VALUES (${UserID}, ${pinID}, ${pinName}, ${longitude}, ${latitude})', req.body)
+    db.one('INSERT INTO \"Coordinate\"(UserID, pinID, pinName, longitude, latitude, pinNotes) VALUES (${UserID}, ${pinID}, ${pinName}, ${longitude}, ${latitude}, ${pinNotes})', req.body)
         .then(data => {
             res.send(data);
         })

@@ -17,7 +17,7 @@ CREATE TABLE "Coordinates" (
     pinName varchar(100),
     longitude decimal(16,14) NOT NULL, -- -180 to +180
     latitude decimal(16,14)  NOT NULL,   -- -90  to +90
-    notes varchar(500),
+    pinNotes varchar(500),
     -- isPublic
     CONSTRAINT fk_coordinates
         FOREIGN KEY(UserID) REFERENCES "AUser"(UserID)
