@@ -116,7 +116,7 @@ function createAUser(req, res, next) {
 }
 
 function createCoordinate(req, res, next) {
-    db.one('INSERT INTO \"Coordinate\"(UserID, pinID, pinName, longitude, latitude, pinNotes) VALUES (${UserID}, ${pinID}, ${pinName}, ${longitude}, ${latitude}, ${pinNotes})', req.body)
+    db.one('INSERT INTO \"Coordinates\"(UserID, pinID, pinName, longitude, latitude, pinNotes) VALUES (${UserID}, ${pinID}, ${pinName}, ${longitude}, ${latitude}, ${pinNotes})', req.body)
         .then(data => {
             res.send(data);
         })
