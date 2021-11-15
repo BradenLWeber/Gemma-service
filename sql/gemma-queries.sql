@@ -1,4 +1,4 @@
--- Get the number of AUser records.
+-- Get the AUser records.
 SELECT *
   FROM AUser
   ;
@@ -8,7 +8,7 @@ SELECT *
   FROM Coordinates
   ;
 
--- Get Tag's from Pins put in the Coordinate records
+-- Get Tags from Pins put in the Coordinate records
 SELECT *
   FROM Tag
  ;

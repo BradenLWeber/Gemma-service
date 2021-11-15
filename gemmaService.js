@@ -17,17 +17,24 @@ const db = pgp({
 
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5432;
 const router = express.Router();
 router.use(express.json());
 
 router.get("/", readHelloMessage);
 router.get("/AUsers", readAUsers);
 router.get("/AUsers/:UserID", readAUser);
+router.get("/Coordinates", readCoordinates);
+router.get("/Coordinates/:pinID", readCoordinate);
 router.put("/AUsers/:UserID", updateAUser);
-router.post('/AUsers', createAUser);
+router.post("/AUsers", createAUser);
+router.post("/Coordinates", createCoordinate);
 router.delete('/AUsers/:UserID', deleteAUser);
-UserID
+
+app.use(router);
+app.use(errorHandler);
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
 
 function errorHandler(err, req, res) {
     if (app.get('env') === "development") {
@@ -45,11 +52,11 @@ function returnDataOr404(res, data) {
 }
 
 function readHelloMessage(req, res) {
-    res.send('Welcome to Gemma! ');
+    res.send('Welcome to Gemma!');
 }
 
 function readAUsers(req, res, next) {
-    db.many("SELECT * FROM AUser")
+    db.many("SELECT * FROM \"AUser\"")
         .then(data => {
             res.send(data);
         })
@@ -59,7 +66,27 @@ function readAUsers(req, res, next) {
 }
 
 function readAUser(req, res, next) {
-    db.oneOrNone('SELECT * FROM AUser WHERE UserID=${UserID}', req.params)
+    db.oneOrNone('SELECT * FROM \"AUser\" WHERE UserID=${UserID}', req.params)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
+function readCoordinates(req, res, next) {
+    db.many("SELECT * FROM \"Coordinates\"")
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            next(err);
+        })
+}
+
+function readCoordinate(req, res, next) {
+    db.oneOrNone('SELECT * FROM \"Coordinate\" WHERE pinID=${pinID}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -69,7 +96,7 @@ function readAUser(req, res, next) {
 }
 
 function updateAUser(req, res, next) {
-    db.oneOrNone('UPDATE AUser SET emailAddress=${body.email}, passphrase=${body.passphrase}WHERE UserID=${params.UserID} RETURNING UserID', req)
+    db.oneOrNone('UPDATE \"AUser\" SET emailAddress=${body.email}, passphrase=${body.passphrase}WHERE UserID=${params.UserID} RETURNING UserID', req)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -79,7 +106,17 @@ function updateAUser(req, res, next) {
 }
 
 function createAUser(req, res, next) {
-    db.one('INSERT INTO AUser(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase}) RETURNING UserID', req.body)
+    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase}) RETURNING UserID', req.body)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
+function createCoordinate(req, res, next) {
+    db.one('INSERT INTO \"Coordinates\"(UserID, pinID, pinName, longitude, latitude, pinNotes) VALUES (${UserID}, ${pinID}, ${pinName}, ${longitude}, ${latitude}, ${pinNotes})', req.body)
         .then(data => {
             res.send(data);
         })
@@ -89,7 +126,7 @@ function createAUser(req, res, next) {
 }
 
 function deleteAUser(req, res, next) {
-    db.oneOrNone('DELETE FROM AUser WHERE UserID=${UserID} RETURNING UserID', req.params)
+    db.oneOrNone('DELETE FROM \"AUser\" WHERE UserID=${UserID} RETURNING UserID', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
