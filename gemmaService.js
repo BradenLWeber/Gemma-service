@@ -106,7 +106,7 @@ function updateAUser(req, res, next) {
 }
 
 function createAUser(req, res, next) {
-    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase}) RETURNING UserID', req.body)
+    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase, viewPublic) VALUES (${emailAddress}, ${passphrase}, $(viewPublic)) RETURNING UserID', req.body)
         .then(data => {
             res.send(data);
         })
