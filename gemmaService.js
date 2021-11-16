@@ -23,7 +23,7 @@ router.use(express.json());
 
 router.get("/", readHelloMessage);
 router.get("/AUsers", readAUsers);
-router.get("/AUsers/:UserID", readAUser);
+router.get("/AUsers/:emailaddress/:passphrase", readAUser);
 router.get("/Coordinates", readCoordinates);
 router.get("/Coordinates/:pinID", readCoordinate);
 router.put("/AUsers/:UserID", updateAUser);
@@ -66,7 +66,7 @@ function readAUsers(req, res, next) {
 }
 
 function readAUser(req, res, next) {
-    db.oneOrNone('SELECT * FROM \"AUser\" WHERE UserID=${UserID}', req.params)
+    db.oneOrNone('SELECT * FROM \"AUser\" WHERE emailaddress=${emailaddress} AND passphrase=${passphrase}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
