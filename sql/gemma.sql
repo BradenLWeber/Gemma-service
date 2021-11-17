@@ -6,10 +6,10 @@ DROP TABLE IF EXISTS "Coordinates";
 DROP TABLE IF EXISTS "AUser";
 -- Create the schema.
 CREATE TABLE "AUser" (
-	UserID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-	emailAddress varchar(100) NOT NULL,
-        passphrase varchar(100) NOT NULL,
-        viewPublic char(3) NOT NULL --PUB or PRI
+    UserID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    emailAddress varchar(100) NOT NULL,
+    passphrase varchar(100) NOT NULL,
+    viewPublic char(3) NOT NULL --PUB or PRI
     );
 CREATE TABLE "Coordinates" (
     UserID int NOT NULL,
