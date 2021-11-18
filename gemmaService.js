@@ -96,7 +96,7 @@ function readCoordinate(req, res, next) {
 }
 
 function updateAUser(req, res, next) {
-    db.oneOrNone('UPDATE \"AUser\" SET emailAddress=${body.email}, passphrase=${body.passphrase}WHERE UserID=${params.UserID} RETURNING UserID', req)
+    db.oneOrNone('UPDATE \"AUser\" SET passphrase=${body.passphrase}WHERE emailAddress=${body.email}', req)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -106,7 +106,7 @@ function updateAUser(req, res, next) {
 }
 
 function createAUser(req, res, next) {
-    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase}) RETURNING UserID', req.body)
+    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase, viewPublic) VALUES (${emailAddress}, ${passphrase}, $(viewPublic))', req.body)
         .then(data => {
             res.send(data);
         })
