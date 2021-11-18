@@ -12,8 +12,8 @@ CREATE TABLE "AUser" (
     viewPublic char(3) NOT NULL --PUB or PRI
     );
 CREATE TABLE "Coordinates" (
-    UserID int NOT NULL,
-    pinID char(5) PRIMARY KEY,
+    UserID int NOT NULL, -- read this when person logs in
+    pinID char(5) PRIMARY KEY, -- make this generate automatically
     pinName varchar(100),
     longitude decimal(16,14) NOT NULL, -- -180 to +180
     latitude decimal(16,14)  NOT NULL,   -- -90  to +90
