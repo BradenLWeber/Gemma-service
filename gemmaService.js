@@ -13,7 +13,7 @@ const db = pgp({
     password: process.env.DB_PASSWORD
 });
 
-// Configure the server and its routes.
+// Configure the server and its routes
 
 const express = require('express');
 const app = express();
@@ -26,7 +26,7 @@ router.get("/AUsers", readAUsers);
 router.get("/AUsers/:emailaddress/:passphrase", readAUser);
 router.get("/Coordinates", readCoordinates);
 router.get("/Coordinates/:pinID", readCoordinate);
-router.put("/AUsers/:UserID", updateAUser);
+router.put("/AUsers/:emailaddress", updateAUser);
 router.post("/AUsers", createAUser);
 router.post("/Coordinates", createCoordinate);
 router.delete('/AUsers/:UserID', deleteAUser);
