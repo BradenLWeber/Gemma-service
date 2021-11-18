@@ -96,7 +96,7 @@ function readCoordinate(req, res, next) {
 }
 
 function updateAUser(req, res, next) {
-    db.oneOrNone('UPDATE \"AUser\" SET emailAddress=${body.email}, passphrase=${body.passphrase}WHERE UserID=${params.UserID} RETURNING UserID', req)
+    db.oneOrNone('UPDATE \"AUser\" SET passphrase=${body.passphrase}WHERE emailAddress=${body.email}', req)
         .then(data => {
             returnDataOr404(res, data);
         })
