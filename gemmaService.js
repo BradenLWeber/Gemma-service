@@ -78,7 +78,7 @@ function readAUser(req, res, next) {
 function readCoordinates(req, res, next) {
     db.many("SELECT * FROM \"Coordinates\"")
         .then(data => {
-            res.send(data);
+            returnDataOr404(res, data);
         })
         .catch(err => {
             next(err);
