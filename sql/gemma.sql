@@ -13,7 +13,7 @@ CREATE TABLE "AUser" (
     );
 CREATE TABLE "Coordinates" (
     UserID int NOT NULL,
-    pinID char(5) PRIMARY KEY,
+    pinid char(5) PRIMARY KEY,
     pinName varchar(100),
     longitude decimal (17,14) NOT NULL, -- -180 to +180
     latitude decimal (17,14)  NOT NULL,   -- -90  to +90

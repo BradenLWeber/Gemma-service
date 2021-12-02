@@ -86,7 +86,7 @@ function readCoordinates(req, res, next) {
 }
 
 function readCoordinate(req, res, next) {
-    db.oneOrNone('SELECT * FROM \"Coordinate\" WHERE pinID=${pinID}', req.params)
+    db.oneOrNone('SELECT * FROM \"Coordinate\" WHERE pinid=${pinid}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -116,7 +116,7 @@ function createAUser(req, res, next) {
 }
 
 function createCoordinate(req, res, next) {
-    db.one('INSERT INTO \"Coordinates\"(UserID, pinID, pinName, longitude, latitude, pinNotes) VALUES (${UserID}, ${pinID}, ${pinName}, ${longitude}, ${latitude}, ${pinNotes})', req.body)
+    db.one('INSERT INTO \"Coordinates\"(UserID, pinid, pinName, longitude, latitude, pinNotes) VALUES (${UserID}, ${pinID}, ${pinName}, ${longitude}, ${latitude}, ${pinNotes})', req.body)
         .then(data => {
             res.send(data);
         })
