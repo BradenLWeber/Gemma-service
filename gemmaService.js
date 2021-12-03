@@ -13,7 +13,7 @@ const db = pgp({
     password: process.env.DB_PASSWORD
 });
 
-// Configure the server and its routes.
+// Configure the server and its routes
 
 const express = require('express');
 const app = express();
@@ -26,7 +26,7 @@ router.get("/AUsers", readAUsers);
 router.get("/AUsers/:emailaddress/:passphrase", readAUser);
 router.get("/Coordinates", readCoordinates);
 router.get("/Coordinates/:pinID", readCoordinate);
-router.put("/AUsers/:UserID", updateAUser);
+router.put("/AUsers/:emailaddress", updateAUser);
 router.post("/AUsers", createAUser);
 router.post("/Coordinates", createCoordinate);
 router.delete('/AUsers/:UserID', deleteAUser);
@@ -78,7 +78,7 @@ function readAUser(req, res, next) {
 function readCoordinates(req, res, next) {
     db.many("SELECT * FROM \"Coordinates\"")
         .then(data => {
-            res.send(data);
+            returnDataOr404(res, data);
         })
         .catch(err => {
             next(err);
@@ -86,7 +86,7 @@ function readCoordinates(req, res, next) {
 }
 
 function readCoordinate(req, res, next) {
-    db.oneOrNone('SELECT * FROM \"Coordinate\" WHERE pinID=${pinID}', req.params)
+    db.oneOrNone('SELECT * FROM \"Coordinate\" WHERE pinid=${pinid}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -116,7 +116,7 @@ function createAUser(req, res, next) {
 }
 
 function createCoordinate(req, res, next) {
-    db.one('INSERT INTO \"Coordinates\"(UserID, pinID, pinName, longitude, latitude, pinNotes) VALUES (${UserID}, ${pinID}, ${pinName}, ${longitude}, ${latitude}, ${pinNotes})', req.body)
+    db.one('INSERT INTO \"Coordinates\"(UserID, pinid, pinName, longitude, latitude, pinNotes) VALUES (${UserID}, ${pinid}, ${pinName}, ${longitude}, ${latitude}, ${pinNotes})', req.body)
         .then(data => {
             res.send(data);
         })
