@@ -139,7 +139,6 @@ function createAUser(req, res, next) {
         });
 }
 
-<<<<<<< HEAD
 function createBoard(req, res, next) {
     db.one('INSERT INTO \"Board\"(boardID, boardName, boardType, boardMap, upvotes, userID) VALUES \
             (${boardID}, ${boardName}, ${boardType}, ${boardMap}, ${upvotes}, ${userID})', req.body)
@@ -154,10 +153,6 @@ function createBoard(req, res, next) {
 function createPin(req, res, next) {
     db.one('INSERT INTO \"Pin\"(boardID, pinid, pinName, pinNotes, pinTag, longitude, latitude) VALUES \
             (${boardID}, ${pinid}, ${pinName}, ${pinNotes}, ${pinTag}, ${longitude}, ${latitude})', req.body)
-=======
-function createCoordinate(req, res, next) {
-    db.none('INSERT INTO \"Coordinates\"(UserID, pinid, pinName, longitude, latitude, pinNotes) VALUES (${UserID}, ${pinid}, ${pinName}, ${longitude}, ${latitude}, ${pinNotes})', req.body)
->>>>>>> f792f73de869114aee37e3a04039638be2b67f39
         .then(data => {
             res.send(data);
         })
