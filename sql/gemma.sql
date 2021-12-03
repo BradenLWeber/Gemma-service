@@ -1,45 +1,52 @@
 -- Database Schema from Domain Model
 -- Drop previous versions of the tables if they exist, in reverse order of foreign keys.
-DROP TABLE IF EXISTS "Media";
-DROP TABLE IF EXISTS "Tag";
-DROP TABLE IF EXISTS "Coordinates";
-DROP TABLE IF EXISTS "AUser";
+DROP TABLE IF EXISTS "Pin" CASCADE;
+DROP TABLE IF EXISTS "Board" CASCADE;
+DROP TABLE IF EXISTS "AUser" CASCADE;
 -- Create the schema.
 CREATE TABLE "AUser" (
-	UserID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-	emailAddress varchar(100) NOT NULL,
-        passphrase varchar(100) NOT NULL,
-        viewPublic char(3) NOT NULL --PUB or PRI
-    );
-CREATE TABLE "Coordinates" (
-    UserID int NOT NULL,
-    pinID char(5) PRIMARY KEY,
+    userID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    emailAddress varchar(100) NOT NULL,
+    passphrase varchar(100) NOT NULL
+);
+CREATE TABLE "Board" (
+    boardID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    boardName varchar(50),
+    boardType varchar(3), -- PUB or PRI
+    boardMap varchar(3), -- ECO or CAM
+    upvotes int,
+    userID int NOT NULL,
+    CONSTRAINT fk_board
+      FOREIGN KEY(userID) REFERENCES "AUser"(userID)
+);
+CREATE TABLE "Pin" (
+    boardID int NOT NULL,
+    pinid char(5) PRIMARY KEY,
     pinName varchar(100),
-    longitude decimal(16,14) NOT NULL, -- -180 to +180
-    latitude decimal(16,14)  NOT NULL,   -- -90  to +90
-    -- isPublic
-    CONSTRAINT fk_coordinates
-        FOREIGN KEY(UserID) REFERENCES "AUser"(UserID)
-    );
-CREATE TABLE "Tag" (
-    tagID char(5) PRIMARY KEY,
-    tagName varchar(50),
-    pinID char(5) NOT NULL,
-    CONSTRAINT fk_tag
-      FOREIGN KEY(pinID) REFERENCES "Coordinates"(pinID)
-    );
-CREATE TABLE "Media" (
-    pinID char(5) NOT NULL,
-    CONSTRAINT fk_media
-      FOREIGN KEY(pinID) REFERENCES "Coordinates"(pinID)
-    );
+    pinNotes varchar(500),
+    pinTag varchar(100),
+    longitude decimal (17,14) NOT NULL, -- -180 to +180
+    latitude decimal (17,14)  NOT NULL,   -- -90  to +90
+    CONSTRAINT fk_pin
+        FOREIGN KEY(boardID) REFERENCES "Board"(boardID)
+);
 
 --Allow users to select data from the tables.
-GRANT SELECT ON AUser TO PUBLIC;
-GRANT SELECT ON Coordinates TO PUBLIC;
-GRANT SELECT ON Tag TO PUBLIC;
-GRANT SELECT ON Media TO PUBLIC;
+--EL added quotes around table names; ElephantSQL couldn't find them otherwise
+GRANT SELECT ON "AUser" TO PUBLIC;
+GRANT SELECT ON "Pin" TO PUBLIC;
+GRANT SELECT ON "Board" TO PUBLIC;
 
 -- Add sample records
-INSERT INTO AUser(emailAddress, passphrase, viewPublic) VALUES ('yj225@students.calvin.edu', 'GemmaDemo0', 'PUB');
+INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('yj225@students.calvin.edu', 'GemmaDemo0');
+INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('ehl6@students.calvin.edu', 'GemmaDemo0');
+INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('rmd34@students.calvin.edu', 'GemmaDemo0');
+INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('blw22@students.calvin.edu', 'GemmaDemo0');
+INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('ots3@students.calvin.edu', 'GemmaDemo0');
+
+INSERT INTO "Board"(boardName, boardType, boardMap, upvotes, userID) VALUES ('Default Private', 'PRI', 'ECO', 0, 3);
+INSERT INTO "Board"(boardName, boardType, boardMap, upvotes, userID) VALUES ('Public', 'PUB', 'CAM', 0, 3);
+
+INSERT INTO "Pin" VALUES (1, 0, 'The middle of the map', 'this pin is in the middle of the map!', '', -85.5795755, 42.934196);
+INSERT INTO "Pin" VALUES (2, 1, 'The almost middle of the map', 'this pin is around the middle of the map!', '', -85.586404, 42.932402);
 
