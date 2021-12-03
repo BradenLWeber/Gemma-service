@@ -24,11 +24,15 @@ router.use(express.json());
 router.get("/", readHelloMessage);
 router.get("/AUsers", readAUsers);
 router.get("/AUsers/:emailaddress/:passphrase", readAUser);
-router.get("/Coordinates", readCoordinates);
-router.get("/Coordinates/:pinID", readCoordinate);
+router.get("/Pins", readPins);
+router.get("/Pins/:pinid", readPin);
+router.get("/Boards", readBoards);
+router.get("/Boards/:boardID", readBoard);
 router.put("/AUsers/:emailaddress", updateAUser);
 router.post("/AUsers", createAUser);
-router.post("/Coordinates", createCoordinate);
+//router.put("/Boards/:boardID/:pinID", updateBoard);
+router.post("/Boards", createBoard);
+router.post("/Pins", createPin);
 router.delete('/AUsers/:UserID', deleteAUser);
 
 app.use(router);
@@ -75,8 +79,8 @@ function readAUser(req, res, next) {
         });
 }
 
-function readCoordinates(req, res, next) {
-    db.many("SELECT * FROM \"Coordinates\"")
+function readPins(req, res, next) {
+    db.many("SELECT * FROM \"Pin\"")
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -85,8 +89,28 @@ function readCoordinates(req, res, next) {
         })
 }
 
-function readCoordinate(req, res, next) {
-    db.oneOrNone('SELECT * FROM \"Coordinate\" WHERE pinid=${pinid}', req.params)
+function readPin(req, res, next) {
+    db.oneOrNone('SELECT * FROM \"Pin\" WHERE pinid=${pinid}', req.params)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
+function readBoards(req, res, next) {
+    db.many("SELECT * FROM \"Board\"")
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        })
+}
+
+function readBoard(req, res, next) {
+    db.oneOrNone('SELECT * FROM \"Board\" WHERE boardID=${boardID}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -115,8 +139,20 @@ function createAUser(req, res, next) {
         });
 }
 
-function createCoordinate(req, res, next) {
-    db.one('INSERT INTO \"Coordinates\"(UserID, pinid, pinName, longitude, latitude, pinNotes) VALUES (${UserID}, ${pinid}, ${pinName}, ${longitude}, ${latitude}, ${pinNotes})', req.body)
+function createBoard(req, res, next) {
+    db.one('INSERT INTO \"Board\"(boardID, boardName, boardType, boardMap, upvotes, userID) VALUES \
+            (${boardID}, ${boardName}, ${boardType}, ${boardMap}, ${upvotes}, ${userID})', req.body)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
+function createPin(req, res, next) {
+    db.one('INSERT INTO \"Pin\"(boardID, pinid, pinName, pinNotes, pinTag, longitude, latitude) VALUES \
+            (${boardID}, ${pinid}, ${pinName}, ${pinNotes}, ${pinTag}, ${longitude}, ${latitude})', req.body)
         .then(data => {
             res.send(data);
         })
