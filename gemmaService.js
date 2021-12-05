@@ -26,14 +26,17 @@ router.get("/AUsers", readAUsers);
 router.get("/AUsers/:emailaddress/:passphrase", readAUser);
 router.get("/Pins", readPins);
 router.get("/Pins/:pinid", readPin);
+router.get("/Pins/:boardID", readPinFromBoard);
 router.get("/Boards", readBoards);
 router.get("/Boards/:boardID", readBoard);
+router.get("/Boards/:UserID", readBoardFromUser);
 router.put("/AUsers/:emailaddress", updateAUser);
 router.post("/AUsers", createAUser);
-//router.put("/Boards/:boardID/:pinID", updateBoard);
 router.post("/Boards", createBoard);
 router.post("/Pins", createPin);
 router.delete('/AUsers/:UserID', deleteAUser);
+router.delete('/Board/:boardID', deleteBoard);
+router.delete('/Pin/:pinid', deletePin);
 
 app.use(router);
 app.use(errorHandler);
@@ -98,6 +101,15 @@ function readPin(req, res, next) {
             next(err);
         });
 }
+function readPinFromBoard(req, res, next) {
+    db.many('SELECT Pin.pinid, Pin.boardID, Pin.pinName, Pin.pinNotes, Pin.pinTag, Pin.longitude, Pin.latitude FROM \"Pin\", \"Board\" WHERE Pin.boardID=${Board.boardID}', req.params)
+    .then(data => {
+        returnDataOr404(res, data);
+    })
+    .catch(err => {
+        next(err);
+    })
+}
 
 function readBoards(req, res, next) {
     db.many("SELECT * FROM \"Board\"")
@@ -111,6 +123,16 @@ function readBoards(req, res, next) {
 
 function readBoard(req, res, next) {
     db.oneOrNone('SELECT * FROM \"Board\" WHERE boardID=${boardID}', req.params)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
+function readBoardFromUser(req, res, next) {
+    db.oneOrNone('SELECT Board.boardID, Board.boardName, Board.boardType, Board.boardMap, Board.userID FROM \"Board\", \"AUser\" WHERE AUser.userID=${Board.userID}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -163,6 +185,26 @@ function createPin(req, res, next) {
 
 function deleteAUser(req, res, next) {
     db.oneOrNone('DELETE FROM \"AUser\" WHERE UserID=${UserID} RETURNING UserID', req.params)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
+function deleteBoard(req, res, next) {
+    db.oneOrNone('DELETE FROM \"Board\" WHERE boardID=${boardID}', req.params)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
+function deletePin(req, res, next) {
+    db.oneOrNone('DELETE FROM \"Pin\" WHERE pinid=${pinid}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
