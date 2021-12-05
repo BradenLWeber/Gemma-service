@@ -14,7 +14,6 @@ CREATE TABLE "Board" (
     boardName varchar(50),
     boardType varchar(3), -- PUB or PRI
     boardMap varchar(3), -- ECO or CAM
-    upvotes int,
     userID int NOT NULL,
     CONSTRAINT fk_board
       FOREIGN KEY(userID) REFERENCES "AUser"(userID)
@@ -44,8 +43,8 @@ INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('rmd34@students.calvin.edu
 INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('blw22@students.calvin.edu', 'GemmaDemo0');
 INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('ots3@students.calvin.edu', 'GemmaDemo0');
 
-INSERT INTO "Board"(boardName, boardType, boardMap, upvotes, userID) VALUES ('Default Private', 'PRI', 'ECO', 0, 3);
-INSERT INTO "Board"(boardName, boardType, boardMap, upvotes, userID) VALUES ('Public', 'PUB', 'CAM', 0, 3);
+INSERT INTO "Board"(boardName, boardType, boardMap, userID) VALUES ('Default Private', 'PRI', 'ECO', 3);
+INSERT INTO "Board"(boardName, boardType, boardMap, userID) VALUES ('Public', 'PUB', 'CAM', 3);
 
 INSERT INTO "Pin" VALUES (1, 0, 'The middle of the map', 'this pin is in the middle of the map!', '', -85.5795755, 42.934196);
 INSERT INTO "Pin" VALUES (2, 1, 'The almost middle of the map', 'this pin is around the middle of the map!', '', -85.586404, 42.932402);

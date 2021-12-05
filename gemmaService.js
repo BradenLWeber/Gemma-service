@@ -140,8 +140,8 @@ function createAUser(req, res, next) {
 }
 
 function createBoard(req, res, next) {
-    db.one('INSERT INTO \"Board\"(boardID, boardName, boardType, boardMap, upvotes, userID) VALUES \
-            (${boardID}, ${boardName}, ${boardType}, ${boardMap}, ${upvotes}, ${userID})', req.body)
+    db.one('INSERT INTO \"Board\"(boardID, boardName, boardType, boardMap, userID) VALUES \
+            (${boardID}, ${boardName}, ${boardType}, ${boardMap}, ${userID})', req.body)
         .then(data => {
             res.send(data);
         })
