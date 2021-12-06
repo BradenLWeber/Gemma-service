@@ -19,7 +19,7 @@ CREATE TABLE "Board" (
       FOREIGN KEY(userID) REFERENCES "AUser"(userID)
 );
 CREATE TABLE "Pin" (
-    boardID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    boardID int,
     pinid char(5) PRIMARY KEY,
     pinName varchar(100),
     pinNotes varchar(500),
