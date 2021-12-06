@@ -20,7 +20,7 @@ CREATE TABLE "Board" (
 );
 CREATE TABLE "Pin" (
     boardID int,
-    pinid char(5) PRIMARY KEY,
+    pinid int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     pinName varchar(100),
     pinNotes varchar(500),
     pinTag varchar(100),
