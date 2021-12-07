@@ -142,7 +142,7 @@ function readBoardFromUser(req, res, next) {
 }
 
 function updateAUser(req, res, next) {
-    db.oneOrNone('UPDATE \"AUser\" SET passphrase=${body.passphrase}WHERE emailAddress=${body.email}', req)
+    db.oneOrNone('UPDATE \"AUser\" SET passphrase=${body.passphrase} WHERE emailAddress=${body.email}', req)
         .then(data => {
             returnDataOr404(res, data);
         })
