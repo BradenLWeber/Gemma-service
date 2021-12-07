@@ -103,12 +103,12 @@ function readPin(req, res, next) {
 }
 function readPinFromBoard(req, res, next) {
     db.many('SELECT Pin.pinid, Pin.boardID, Pin.pinName, Pin.pinNotes, Pin.pinTag, Pin.longitude, Pin.latitude FROM \"Pin\", \"Board\" WHERE Pin.boardID=${Board.boardID}', req.params)
-    .then(data => {
-        returnDataOr404(res, data);
-    })
-    .catch(err => {
-        next(err);
-    })
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        })
 }
 
 function readBoards(req, res, next) {
@@ -152,7 +152,7 @@ function updateAUser(req, res, next) {
 }
 
 function createAUser(req, res, next) {
-    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase, viewPublic) VALUES (${emailAddress}, ${passphrase}, $(viewPublic))', req.body)
+    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase})', req.body)
         .then(data => {
             res.send(data);
         })
