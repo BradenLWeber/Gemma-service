@@ -73,7 +73,7 @@ function readAUsers(req, res, next) {
 }
 
 function readAUser(req, res, next) {
-    db.oneOrNone('SELECT * FROM \"AUser\" WHERE emailaddress=${emailaddress} AND passphrase=${passphrase} RETURNING userID', req.params)
+    db.oneOrNone('SELECT * FROM \"AUser\" WHERE emailaddress=${emailaddress} AND passphrase=${passphrase}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
