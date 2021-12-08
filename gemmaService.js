@@ -73,7 +73,7 @@ function readAUsers(req, res, next) {
 }
 
 function readAUser(req, res, next) {
-    db.oneOrNone('SELECT * FROM \"AUser\" WHERE emailaddress=${emailaddress} AND passphrase=${passphrase}', req.params)
+    db.oneOrNone('SELECT * FROM \"AUser\" WHERE emailaddress=${emailaddress} AND passphrase=${passphrase} RETURNING userID', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -152,7 +152,7 @@ function updateAUser(req, res, next) {
 }
 
 function createAUser(req, res, next) {
-    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase})', req.body)
+    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase}) RETURNING userID', req.body)
         .then(data => {
             res.send(data);
         })
