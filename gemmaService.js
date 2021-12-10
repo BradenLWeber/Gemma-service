@@ -173,8 +173,8 @@ function createBoard(req, res, next) {
 }
 
 function createPin(req, res, next) {
-    db.one('INSERT INTO \"Pin\"(boardID, pinid, pinName, pinNotes, pinTag, longitude, latitude) VALUES \
-            (${boardID}, ${pinid}, ${pinName}, ${pinNotes}, ${pinTag}, ${longitude}, ${latitude})', req.body)
+    db.one('INSERT INTO \"Pin\"(boardID, pinName, pinNotes, pinTag, longitude, latitude) VALUES \
+            (${boardID}, ${pinName}, ${pinNotes}, ${pinTag}, ${longitude}, ${latitude})', req.body)
         .then(data => {
             res.send(data);
         })
