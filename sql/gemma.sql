@@ -9,7 +9,7 @@ CREATE TABLE "AUser" (
     emailAddress varchar(100) NOT NULL,
     passphrase varchar(100) NOT NULL,
     nickname varchar(100),
-    photo varchar(100), -- user will be able to pick one of several files within app
+    photo varchar(100) -- user will be able to pick one of several files within app
 );
 CREATE TABLE "Board" (
     boardID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
