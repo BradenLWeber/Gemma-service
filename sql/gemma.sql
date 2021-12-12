@@ -39,9 +39,9 @@ GRANT SELECT ON "Pin" TO PUBLIC;
 GRANT SELECT ON "Board" TO PUBLIC;
 
 -- Add sample records
-INSERT INTO "AUser"(emailAddress, passphrase, nickname, photo) VALUES ('yj225@students.calvin.edu', 'GemmaDemo0', 'Grace', '../assets/defaultAvatar.png');
+INSERT INTO "AUser"(emailAddress, passphrase, nickname, photo) VALUES ('yj225@students.calvin.edu', 'GemmaDemo0', 'Grace', 'defaultAvatar');
 INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('ehl6@students.calvin.edu', 'GemmaDemo0');
-INSERT INTO "AUser"(emailAddress, passphrase, nickname, photo) VALUES ('rmd34@students.calvin.edu', 'GemmaDemo0', 'Becca', '../assets/defaultAvatar.png');
+INSERT INTO "AUser"(emailAddress, passphrase, nickname, photo) VALUES ('rmd34@students.calvin.edu', 'GemmaDemo0', 'Becca', 'defaultAvatar');
 INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('blw22@students.calvin.edu', 'GemmaDemo0');
 INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('ots3@students.calvin.edu', 'GemmaDemo0');
 
