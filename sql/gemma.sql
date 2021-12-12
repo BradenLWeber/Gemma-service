@@ -7,7 +7,9 @@ DROP TABLE IF EXISTS "AUser" CASCADE;
 CREATE TABLE "AUser" (
     userID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     emailAddress varchar(100) NOT NULL,
-    passphrase varchar(100) NOT NULL
+    passphrase varchar(100) NOT NULL,
+    nickname varchar(100),
+    photo varchar(100), -- user will be able to pick one of several files within app
 );
 CREATE TABLE "Board" (
     boardID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -37,9 +39,9 @@ GRANT SELECT ON "Pin" TO PUBLIC;
 GRANT SELECT ON "Board" TO PUBLIC;
 
 -- Add sample records
-INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('yj225@students.calvin.edu', 'GemmaDemo0');
+INSERT INTO "AUser"(emailAddress, passphrase, nickname, photo) VALUES ('yj225@students.calvin.edu', 'GemmaDemo0', 'Grace', 'defaultAvatar');
 INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('ehl6@students.calvin.edu', 'GemmaDemo0');
-INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('rmd34@students.calvin.edu', 'GemmaDemo0');
+INSERT INTO "AUser"(emailAddress, passphrase, nickname, photo) VALUES ('rmd34@students.calvin.edu', 'GemmaDemo0', 'Becca', 'defaultAvatar');
 INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('blw22@students.calvin.edu', 'GemmaDemo0');
 INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('ots3@students.calvin.edu', 'GemmaDemo0');
 

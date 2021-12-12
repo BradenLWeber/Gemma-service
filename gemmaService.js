@@ -31,6 +31,7 @@ router.get("/Boards", readBoards);
 router.get("/Boards/:boardID", readBoard);
 router.get("/Boards/:UserID", readBoardFromUser);
 router.put("/AUsers/:emailaddress", updateAUser);
+router.put("/AUsers/:userID", updateAUserNickname);
 router.post("/AUsers", createAUser);
 router.post("/Boards", createBoard);
 router.post("/Pins", createPin);
@@ -151,8 +152,18 @@ function updateAUser(req, res, next) {
         });
 }
 
+function updateAUserNickname(req, res, next) {
+    db.oneOrNone('UPDATE \"AUser\" SET nickname=${body.nickname}WHERE userID=${params.userID} RETURNING userID', req)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
 function createAUser(req, res, next) {
-    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase) VALUES (${emailAddress}, ${passphrase}) RETURNING userID', req.body)
+    db.one('INSERT INTO \"AUser\"(emailAddress, passphrase, nickname, photo) VALUES (${emailAddress}, ${passphrase}, ${nickname}, ${photo}) RETURNING userID', req.body)
         .then(data => {
             res.send(data);
         })
