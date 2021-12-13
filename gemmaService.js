@@ -174,7 +174,7 @@ function createAUser(req, res, next) {
 
 function createBoard(req, res, next) {
     db.one('INSERT INTO \"Board\"(boardName, boardType, boardMap, userID) VALUES \
-            (${boardName}, ${boardType}, ${boardMap}, ${userID}) RETURNING ${boardName}', req.body)
+            (${boardName}, ${boardType}, ${boardMap}, ${userID}) RETURNING boardid', req.body)
         .then(data => {
             res.send(data);
         })
