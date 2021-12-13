@@ -32,6 +32,7 @@ router.get("/Boards/:boardID", readBoard);
 router.get("/Boards/:UserID", readBoardFromUser);
 router.put("/AUsers/:emailaddress", updateAUser);
 router.put("/AUsers/:userID", updateAUserNickname);
+router.put("/Board/:boardID", updateBoard);
 router.post("/AUsers", createAUser);
 router.post("/Boards", createBoard);
 router.post("/Pins", createPin);
@@ -154,6 +155,16 @@ function updateAUser(req, res, next) {
 
 function updateAUserNickname(req, res, next) {
     db.oneOrNone('UPDATE \"AUser\" SET nickname=${body.nickname}WHERE userID=${params.userID} RETURNING userID', req)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
+function updateBoard(req, res, next) {
+    db.oneOrNone('UPDATE \"Board\" SET boardType=${body.boardType}WHERE boardID=${params.boardID} RETURNING boardID', req)
         .then(data => {
             returnDataOr404(res, data);
         })
