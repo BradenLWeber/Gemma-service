@@ -205,7 +205,7 @@ function deleteAUser(req, res, next) {
 }
 
 function deleteBoard(req, res, next) {
-    db.oneOrNone('DELETE FROM \"Board\" WHERE boardID=${boardID}', req.params)
+    db.oneOrNone('DELETE FROM \"Board\" WHERE boardID=${boardID} RETURNING ${boardID}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -215,7 +215,7 @@ function deleteBoard(req, res, next) {
 }
 
 function deletePin(req, res, next) {
-    db.oneOrNone('DELETE FROM \"Pin\" WHERE pinid=${pinid}', req.params)
+    db.oneOrNone('DELETE FROM \"Pin\" WHERE pinid=${pinid} RETURNING ${pinid}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
