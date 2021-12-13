@@ -207,7 +207,7 @@ function deleteAUser(req, res, next) {
 function deleteBoard(req, res, next) {
     db.oneOrNone('DELETE FROM \"Board\" WHERE boardID=${boardID} RETURNING ${boardID}', req.params)
         .then(data => {
-            //
+            returnDataOr404(res, data);
         })
         .catch(err => {
             next(err);
