@@ -44,7 +44,7 @@ app.use(errorHandler);
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
-function errorHandler(err, req, res) {
+function errorHandler(err, res) {
     if (app.get('env') === "development") {
         console.log(err);
     }
