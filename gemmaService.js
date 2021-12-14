@@ -1,9 +1,20 @@
-/**
- * Code from kvlinden monopolyService
- * Updated code for Gemma-App Database (yj225)
- */
+{/* 
+    This is the code for Gemma's dataservice.
+    It's based on code from kvlinden's monopolyService.
 
-// Set up the database connection.
+    Gemma is Team D's CS262 software project at Calvin University.
+
+    @authors: Braden Weber,
+              Becca DiCosola,
+              Grace Jung,
+              Eleanor Lee,
+              Oscar Schott
+
+    Fall 2021
+*/}
+
+
+// Set up the database connection
 const pgp = require('pg-promise')();
 const db = pgp({
     host: process.env.DB_SERVER,
@@ -14,13 +25,13 @@ const db = pgp({
 });
 
 // Configure the server and its routes
-
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 5432;
 const router = express.Router();
 router.use(express.json());
 
+// Available server functions
 router.get("/", readHelloMessage);
 router.get("/AUsers", readAUsers);
 router.get("/AUsers/:emailaddress/:passphrase", readAUser);

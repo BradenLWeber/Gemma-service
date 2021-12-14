@@ -1,9 +1,14 @@
--- Database Schema from Domain Model
+-- Gemma's database schema for Elephant SQL
+-- Gemma is Team D's CS262 project at Calvin University.
+-- @authors: Braden Weber, Becca DiCosola, Grace Jung, Eleanor Lee, Oscar Schott
+--
+-- Fall 2021
+
 -- Drop previous versions of the tables if they exist, in reverse order of foreign keys.
 DROP TABLE IF EXISTS "Pin" CASCADE;
 DROP TABLE IF EXISTS "Board" CASCADE;
 DROP TABLE IF EXISTS "AUser" CASCADE;
--- Create the schema.
+-- Create User, Board, and Pin tables.
 CREATE TABLE "AUser" (
     userID int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     emailAddress varchar(100) NOT NULL,
@@ -26,19 +31,19 @@ CREATE TABLE "Pin" (
     pinName varchar(100),
     pinNotes varchar(500),
     pinTag varchar(100),
-    longitude decimal (17,14) NOT NULL, -- -180 to +180
-    latitude decimal (17,14)  NOT NULL,   -- -90  to +90
+    longitude decimal (17,14) NOT NULL,
+    latitude decimal (17,14)  NOT NULL, 
     CONSTRAINT fk_pin
         FOREIGN KEY(boardID) REFERENCES "Board"(boardID)
 );
 
---Allow users to select data from the tables.
---EL added quotes around table names; ElephantSQL couldn't find them otherwise
+-- Allow users to select data from the tables.
+-- Quotes allow ElephantSQL to recognize capitalization of table names.
 GRANT SELECT ON "AUser" TO PUBLIC;
 GRANT SELECT ON "Pin" TO PUBLIC;
 GRANT SELECT ON "Board" TO PUBLIC;
 
--- Add sample records
+-- Add sample records.
 INSERT INTO "AUser"(emailAddress, passphrase, nickname, photo) VALUES ('yj225@students.calvin.edu', 'GemmaDemo0', 'Grace', '../assets/defaultAvatar.png');
 INSERT INTO "AUser"(emailAddress, passphrase) VALUES ('ehl6@students.calvin.edu', 'GemmaDemo0');
 INSERT INTO "AUser"(emailAddress, passphrase, nickname, photo) VALUES ('rmd34@students.calvin.edu', 'GemmaDemo0', 'Becca', '../assets/defaultAvatar.png');

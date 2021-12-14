@@ -1,20 +1,22 @@
+-- Sample queries to test Gemma's database.
+-- @author: Grace Jung
+
 -- Get the AUser records.
 SELECT *
-  FROM AUser
+  FROM "AUser"
   ;
 
--- Get the Coordinates records.
+-- Get the Pins records.
 SELECT * 
-  FROM Coordinates
+  FROM "Pin"
   ;
 
--- Get Tags from Pins put in the Coordinate records
-SELECT *
-  FROM Tag
- ;
-
+-- Get the Boards records.
+SELECT * 
+  FROM "Board"
+  ;
 
 -- Get the cross-product of all the tables.
 SELECT *
-  FROM AUser, Coordinate
+  FROM "AUser", "Board"
   ;
