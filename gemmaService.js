@@ -42,6 +42,8 @@ router.get("/Boards", readBoards);
 router.get("/Boards/:boardID", readBoard);
 router.get("/Boards/:UserID", readBoardFromUser);
 router.put("/AUsers/:emailaddress", updateAUser);
+router.put("/AUsers/:userID", updateAUserNickname);
+router.put("/Board/:boardID", updateBoard);
 router.post("/AUsers", createAUser);
 router.post("/Boards", createBoard);
 router.post("/Pins", createPin);
@@ -54,7 +56,7 @@ app.use(errorHandler);
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
-function errorHandler(err, req, res) {
+function errorHandler(err, res) {
     if (app.get('env') === "development") {
         console.log(err);
     }
@@ -162,6 +164,26 @@ function updateAUser(req, res, next) {
         });
 }
 
+function updateAUserNickname(req, res, next) {
+    db.oneOrNone('UPDATE \"AUser\" SET nickname=${body.nickname}WHERE userID=${params.userID} RETURNING userID', req)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
+function updateBoard(req, res, next) {
+    db.oneOrNone('UPDATE \"Board\" SET boardType=${body.boardType}WHERE boardID=${params.boardID} RETURNING boardID', req)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
 function createAUser(req, res, next) {
     db.one('INSERT INTO \"AUser\"(emailAddress, passphrase, nickname, photo) VALUES (${emailAddress}, ${passphrase}, ${nickname}, ${photo}) RETURNING userID', req.body)
         .then(data => {
@@ -173,8 +195,8 @@ function createAUser(req, res, next) {
 }
 
 function createBoard(req, res, next) {
-    db.one('INSERT INTO \"Board\"(boardID, boardName, boardType, boardMap, userID) VALUES \
-            (${boardID}, ${boardName}, ${boardType}, ${boardMap}, ${userID})', req.body)
+    db.one('INSERT INTO \"Board\"(boardName, boardType, boardMap, userID) VALUES \
+            (${boardName}, ${boardType}, ${boardMap}, ${userID}) RETURNING boardid', req.body)
         .then(data => {
             res.send(data);
         })
@@ -184,8 +206,8 @@ function createBoard(req, res, next) {
 }
 
 function createPin(req, res, next) {
-    db.one('INSERT INTO \"Pin\"(boardID, pinid, pinName, pinNotes, pinTag, longitude, latitude) VALUES \
-            (${boardID}, ${pinid}, ${pinName}, ${pinNotes}, ${pinTag}, ${longitude}, ${latitude})', req.body)
+    db.one('INSERT INTO \"Pin\"(boardID, pinName, pinNotes, pinTag, longitude, latitude) VALUES \
+            (${boardID}, ${pinName}, ${pinNotes}, ${pinTag}, ${longitude}, ${latitude}) RETURNING ${pinName}', req.body)
         .then(data => {
             res.send(data);
         })
@@ -205,7 +227,7 @@ function deleteAUser(req, res, next) {
 }
 
 function deleteBoard(req, res, next) {
-    db.oneOrNone('DELETE FROM \"Board\" WHERE boardID=${boardID}', req.params)
+    db.oneOrNone('DELETE FROM \"Board\" WHERE boardID=${boardID} RETURNING ${boardID}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
@@ -215,7 +237,7 @@ function deleteBoard(req, res, next) {
 }
 
 function deletePin(req, res, next) {
-    db.oneOrNone('DELETE FROM \"Pin\" WHERE pinid=${pinid}', req.params)
+    db.oneOrNone('DELETE FROM \"Pin\" WHERE pinid=${pinid} RETURNING ${pinid}', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })
